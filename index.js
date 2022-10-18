@@ -7,7 +7,10 @@ const morgan=require("morgan");
 const userRoute=require("./routes/users")
 const authRoute=require("./routes/auth");
 const postRoute=require("./routes/post")
+const cors=require("cors")
+
 dotenv.config();
+app.use(cors());
 
 
 
@@ -31,12 +34,9 @@ app.use("/api/auth",authRoute)
 app.use("/api/post",postRoute)
 // req
 
-app.get("/",(req,res)=>{
 
-    console.log("homepage")
-})
 
-app.listen(3000,()=>{
+app.listen(5000,()=>{
 
 
     console.log("live")

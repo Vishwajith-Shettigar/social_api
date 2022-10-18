@@ -6,7 +6,7 @@ const postSchema=mongoose.Schema({
         type:String,
         require:true,
        
-       
+          
     },
    
     desc:{
