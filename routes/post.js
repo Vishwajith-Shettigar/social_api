@@ -64,15 +64,19 @@ catch(e)
 
 router.put("/:id/like",async(req,res)=>{
 
+    console.log("likes", req.body.userid, req.params.id)
     try{
         const newPost=await post.findById(req.params.id);
-        if(!newPost.likes.includes(req.body.userid))
+        console.log(newPost)
+        if((!newPost.likes.includes(req.body.userid)))
         {
-                await post.updateOne({$push:{likes:req.body.userid}})
-                res.status(200).json("liked")
+            console.log("not",newPost.likes.includes(req.body.userid))
+                await post.findByIdAndUpdate(req.params.id,{$push:{likes:req.body.userid}})
+                res.status(201).json("liked")
+
         }else{
-            await post.updateOne({$pull:{likes:req.body.userid}})
-            res.status(200).json("disliked")
+            await post.findByIdAndUpdate(req.params.id,{$pull:{likes:req.body.userid}})
+            res.status(201).json("disliked")
         }
 
     }catch(e)
@@ -102,7 +106,7 @@ router.get("/:id",async(req,res)=>{
 //get timeline post
 
 router.get("/timeline/:userid",async(req,res)=>{
-
+console.log(req.params.userid)
     let postArray=[];
     try{
    const currentUser=await user.findById(req.params.userid);
