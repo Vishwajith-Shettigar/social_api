@@ -108,7 +108,8 @@ router.get("/friends/:userid", async(req,res)=>{
             friendList.push({_id,username,profilePicture})
             
         })
-
+console.log("---------------------------")
+console.log(friendList)
          res.status(200).json(friendList)
 
     }catch(e)
@@ -120,6 +121,8 @@ router.get("/friends/:userid", async(req,res)=>{
 })
 
 router.put("/:id/follow",async(req,res)=>{
+    
+    
     if(req.body.userid!=req.params.id)
     {
          try{
@@ -129,6 +132,8 @@ router.put("/:id/follow",async(req,res)=>{
 
             if(!targetUser.followers.includes(req.body.userid))
             {
+              
+                
                         await targetUser.updateOne({$push:{followers:req.body.userid}});
                         await currentUser.updateOne({$push:{following:req.params.id}})
                         res.status(200).json("user has been followed");

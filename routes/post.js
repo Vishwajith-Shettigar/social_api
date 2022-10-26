@@ -106,6 +106,7 @@ router.get("/:id",async(req,res)=>{
 //get timeline post
 
 router.get("/timeline/:userid",async(req,res)=>{
+    
 console.log(req.params.userid)
     let postArray=[];
     try{

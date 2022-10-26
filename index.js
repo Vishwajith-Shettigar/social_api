@@ -7,6 +7,8 @@ const morgan=require("morgan");
 const userRoute=require("./routes/users")
 const authRoute=require("./routes/auth");
 const postRoute=require("./routes/post")
+const convRoute=require("./routes/conversations")
+const mesgRoute=require("./routes/messages")
 const cors=require("cors")
 const multer=require("multer");
 const path=require("path");
@@ -36,7 +38,8 @@ app.use(helmet())
 app.use("/api/user",userRoute)
 app.use("/api/auth",authRoute)
 app.use("/api/post",postRoute)
-
+app.use("/api/conversation",convRoute);
+app.use("/api/message",mesgRoute)
 const  storage=multer.diskStorage({
 
     destination:function(req,file,cb){
