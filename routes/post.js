@@ -40,11 +40,12 @@ catch(e)
 
 //delete
 
-router.delete("/:id",async(req,res)=>{
+router.post("/:id",async(req,res)=>{
 
     try{
     const deletingpost=await post.findById(req.params.id);
-
+console.log(deletingpost.userid)
+console.log(req.body)
     if(deletingpost.userid===req.body.userid)
     {
  await post.findByIdAndDelete(req.params.id);

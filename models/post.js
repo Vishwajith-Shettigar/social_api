@@ -21,6 +21,10 @@ const postSchema=mongoose.Schema({
         type:Array,
         default:[]
     },
+    anonymous:{
+        type:Boolean,
+        default:false
+    }
 
 },
 {timestamps:true}
