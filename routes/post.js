@@ -144,6 +144,53 @@ res.status(500).json(e);
     }
 })
 
+
+//update comment
+
+router.post("/comment/:id",async(req,res)=>{
+    try{
+        console.log("kol")
+       const n= await post.findByIdAndUpdate(req.params.id,{$push:{comments:req.body}})
+
+        res.status(201).json("success")
+    }catch(e)
+    {
+        res.status(400).json(e)
+    }
+})
+
+
+router.post("/deleteComment/:id",async(req,res)=>{
+
+    try{
+        if(req.body.userid===req.body.postuserid || req.body.userid===req.body.commentuserid)
+        {
+            await post.findByIdAndUpdate(req.params.id,{$pull:{comments:{_id:req.body.commentid}}})
+            res.status(200).json("deleted ")
+            
+        }else{
+            res.status(400).json("not allowed")
+        }
+
+    }catch(e)
+    {
+        res.status(500).json(e)
+    }
+})
+
+router.get("/getComments/:id",async(req,res)=>{
+
+    try{
+           const result=await post.findById(req.params.id);
+           console.log(result);
+         const  {comments,...others}=result._doc;
+           res.status(200).json(comments);
+    }catch(e)
+    {
+        res.status(500).json(comments);
+    }
+})
+
 module.exports=router;
 
 

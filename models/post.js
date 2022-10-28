@@ -24,7 +24,11 @@ const postSchema=mongoose.Schema({
     anonymous:{
         type:Boolean,
         default:false
-    }
+    },
+    comments:[
+       { userid:String,
+        text:String,}
+    ]
 
 },
 {timestamps:true}
