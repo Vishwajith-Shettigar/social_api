@@ -177,8 +177,89 @@ router.put("/:id/unfollow",async(req,res)=>{
     }
 })
 
-router.get("/getuserrecom",async(req,res)=>{
+router.get("/getuserrecom/:id",async(req,res)=>{
+try{
+    
+    const Currentuser=await user.findById(req.params.id);
+    console.log(Currentuser)
+    let userFriends=[];
+    for (i of Currentuser.following){
+           userFriends.push(i);
 
+    }
+    for (i of Currentuser.followers){
+        userFriends.push(i);
+        
+ }
+console.log(userFriends);
+
+
+
+
+userFriends=userFriends.filter((item,index,userFriends)=>{
+
+    return userFriends.indexOf(item)===index;
+
+})
+
+
+  
+
+
+let userfrienFriends=[];
+ for(i of userFriends){
+
+        const friend= await user.findById(i);
+        friend.followers.map((ff)=>{
+            userfrienFriends.push(ff)
+        })
+        friend.following.map(async(ff)=>{
+            userfrienFriends.push(ff);
+        })
+    
+
+}
+
+userfrienFriends=userfrienFriends.filter((item,index,userFriends)=>{
+
+    return userfrienFriends.indexOf(item)===index;
+
+})
+
+userfrienFriends=userfrienFriends.filter((f)=>{
+    return  userFriends.includes(f)===false && f!=req.params.id
+})
+
+
+
+const recomFriends=await Promise.all(
+
+    userfrienFriends.map(  friendid=>{
+
+        return  user.findById(friendid)
+
+})
+)
+
+if(recomFriends.length<10)
+{
+    
+    const u=await user.find();
+
+    for(i of u)
+    recomFriends.push(i)
+
+}
+
+
+
+
+ res.status(200).json(recomFriends);
+}
+
+catch(e){
+    res.status(500).json(e);
+}
     
 })
 
