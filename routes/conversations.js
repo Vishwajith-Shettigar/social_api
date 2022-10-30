@@ -15,6 +15,7 @@ router.post("/",async(req,res)=>{
  res.status(200).json(savedConv)
     }catch(e)
     {
+       
         res.status(500).json(e);
     }
 })
@@ -33,6 +34,7 @@ router.get("/:userid",async(req,res)=>{
 
     }catch(e)
     {
+       
 res.status(500).json(e)
     }
 })
@@ -41,13 +43,27 @@ res.status(500).json(e)
 
 router.get("/find/:firstuserid/:seconduserid",async(req,res)=>{
     try{
-        const conver=await conversation.findOne({
+        
+        let conver=await conversation.findOne({
             members:{$all:[req.params.firstuserid,req.params.seconduserid]}
         })
+        console.log(conver)
+       
+        if(conver===null) 
+        {
+            const newConversation=new conversation({
+                members:[req.params.seconduserid,req.params.firstuserid]
+            })
+             conver= await newConversation.save()
+          
+        }
+      
         res.status(200).json(conver)
 
     }catch(e)
     {
+        console.log("lol-----------------------")
+        console.log(e)
 res.status(500).json(e)
     }
 })

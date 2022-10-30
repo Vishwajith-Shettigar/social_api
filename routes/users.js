@@ -177,4 +177,9 @@ router.put("/:id/unfollow",async(req,res)=>{
     }
 })
 
+router.get("/getuserrecom",async(req,res)=>{
+
+    
+})
+
 module.exports=router;
