@@ -9,6 +9,7 @@ const authRoute=require("./routes/auth");
 const postRoute=require("./routes/post")
 const convRoute=require("./routes/conversations")
 const mesgRoute=require("./routes/messages")
+const globalMRoute=require("./routes/globalMessage")
 const cors=require("cors")
 const multer=require("multer");
 const path=require("path");
@@ -39,7 +40,8 @@ app.use("/api/user",userRoute)
 app.use("/api/auth",authRoute)
 app.use("/api/post",postRoute)
 app.use("/api/conversation",convRoute);
-app.use("/api/message",mesgRoute)
+app.use("/api/message",mesgRoute);
+app.use("/api/globalm",globalMRoute);
 const  storage=multer.diskStorage({
 
     destination:function(req,file,cb){
