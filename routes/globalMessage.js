@@ -4,6 +4,24 @@ const globalMessages=require('../models/globalMessages')
 
 router.post("/",async(req,res)=>{
 
+    try{
+
+      const conver =await globalMessages.find();
+    
+        if(conver.length>100)
+        {
+          
+            const lol= await globalMessages.find({}).limit(conver.length-100);
+           lol.forEach(async(doc)=>{
+
+             await globalMessages.remove({_id:doc._id})
+           })
+        }
+
+    }catch(e){
+
+    }
+
    const globalMessage= new globalMessages(req.body);
    try{
   const result= await globalMessage.save();
@@ -26,11 +44,8 @@ router.get("/",async(req,res)=>{
     try{
         const conver=await globalMessages.find()
        
+      
         res.status(200).json(conver)
-        if(conver.length>1000)
-        {
-            
-        }
 
     }catch(e)
     {
