@@ -3,38 +3,64 @@ const bcrypt=require("bcrypt");
 const { json } = require("express");
 const user = require("../models/user");
 //update
-router.put("/:id",async(req,res)=>{
-
-   if(req.body.userid===req.params.id || req.body.isAdmin)
-   {
-    if(req.body.password)
-    {
-        try{
-          
-            const salt=await bcrypt.genSalt(10);
-            req.body.password=await bcrypt.hash(req.body.password,salt);
+router.post("/:id",async(req,res)=>{
+try{  
+    const u=await user.findById(req.params.id)
+  if(req.body.password)
+  {
   
+    const validPassword = await bcrypt.compare(
+        req.body.oldpassword,
+        u.password
+      );
 
-        }catch(e)
-        {
-                return res.status(500).json(e);
-        }
+      if(!validPassword)
+      {
+          return res.status(404).json("wrong old password")
+      }else{
+     
+        const salt = await bcrypt.genSalt(10);
+          req.body.password = await bcrypt.hash(req.body.password, salt);
+          u.password=req.body.password;
+      }
+    
+  }
 
-    }
-    try{
-        const updatedUser=await user.findByIdAndUpdate(req.params.id,{
-            $set:req.body,
-        })
-       
-        return res.status(200).json("Account has been updated");
-    }catch(e)
-    {
-        return res.status(500).json(e);
-    }
+  if(req.body.username)
+  {
+    console.log(req.body.username)
+u.username=req.body.username;
+  }
+  if(req.body.email)
+  u.email=req.body.email;
+  if(req.body.desc)
+ { 
+    u.desc=req.body.desc;
+console.log(req.body.desc)
+}
+  if(req.body.city)
+  {
+    console.log(req.body.city)
+    u.city=req.body.city;
+}
+  if(req.body.from)
+  u.from=req.body.from;
+  if(req.body.profilePicture)
+  u.profilePicture=req.body.profilePicture;
+  if(req.body.coverPicture)
+  u.coverPicture=req.body.coverPicture;
+  if(req.body.relationship)
+  u.relationship=req.body.relationship;
 
-   }else{
-    res.status(401).json("You can update only your account")
-   }
+ const result=await user.findByIdAndUpdate(req.params.id,u)
+ console.log(u)
+ console.log(result)
+ res.status(200).json(result)
+
+}
+catch(e) {{
+    res.status(500).json(e)
+}}
 })
 
 //delete

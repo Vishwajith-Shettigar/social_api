@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
-const user = require("../models/user");
+// const user = require("../models/user");
 const users = require("../models/user");
 
 // Register
@@ -12,16 +12,18 @@ router.post("/register", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
   
-    const newUser = await new users({
+    const newUser =  new users({
       username: req.body.username,
       email: req.body.email,
-      password: hashedPassword,
-    });
+      password: hashedPassword
 
-    const user = await newUser.save();
- 
-    res.status(200).json(user);
+    });
+console.log(newUser)
+    const useraa = await newUser.save();
+ console.log("sdwedew")
+    res.status(200).json(useraa);
   } catch (e) {
+    console.log(e)
     res.status(500).json(e);
   }
 });

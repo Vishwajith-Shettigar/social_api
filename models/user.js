@@ -46,18 +46,22 @@ const userSchema=mongoose.Schema({
     },
     desc:{
         type:String,
+        default:"",
         max:50
     },
     city:{
             type:String,
+            default:"",
             max:50
     },
     from:{
         type:String,
+        default:"",
         max:50
     },
     relationship:{
         type:String,
+        default:3,
         enum:[1,2,3]
     }
 

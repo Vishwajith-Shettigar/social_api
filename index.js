@@ -45,7 +45,12 @@ app.use("/api/globalm",globalMRoute);
 const  storage=multer.diskStorage({
 
     destination:function(req,file,cb){
+        console.log("yoo")
+       console.log(req.body.notapost)
+       if(!req.body.notapost)
         cb(null,path.join(__dirname,"./public/images/post"))
+        else
+        cb(null,path.join(__dirname,"./public/images/person"))
        
     },
     filename:function(req,file,cb){
@@ -57,6 +62,7 @@ const upload=multer({storage:storage, limits: { fieldSize: 10 * 1024 * 1024 }});
 app.post("/api/upload", upload.single("file"),(req,res)=>{
 
     try{
+        console.log("Upload")
        console.log(req.body)
 
         return res.status(201).json("uploaded successfullly")
