@@ -5,6 +5,8 @@ const user = require("../models/user");
 //update
 router.post("/:id",async(req,res)=>{
 try{  
+
+    console.log("hii")
     const u=await user.findById(req.params.id)
   if(req.body.password)
   {
@@ -48,7 +50,9 @@ console.log(req.body.desc)
   if(req.body.profilePicture)
   u.profilePicture=req.body.profilePicture;
   if(req.body.coverPicture)
-  u.coverPicture=req.body.coverPicture;
+{  u.coverPicture=req.body.coverPicture;
+console.log(req.body.coverPicture)
+}
   if(req.body.relationship)
   u.relationship=req.body.relationship;
 
@@ -273,7 +277,8 @@ if(recomFriends.length<10)
     const u=await user.find();
 
     for(i of u)
-    recomFriends.push(i)
+{
+ !(i in recomFriends) && recomFriends.push(i)}
 
 }
 
