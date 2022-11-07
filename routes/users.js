@@ -92,7 +92,7 @@ router.delete("/:id",async(req,res)=>{
 //get user
 
 router.get("/",async(req,res)=>{
-
+console.log("hii")
     const userid=req.query.userid;
     const username=req.query.username;
 
