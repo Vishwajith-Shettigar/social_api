@@ -119,11 +119,12 @@ const friendPost= await Promise.all(
     }))
 );
 const allPost=await post.find({}).limit(100);
-(userPost.concat(...friendPost)).concat(...allPost);
+
+(allPost.concat(...friendPost)).concat(...allPost);
 
 const uniqueIds = [];
 
-  const uniqueEmployees = userPost.filter(element => {
+  const uniqueEmployees = allPost.filter(element => {
     const isDuplicate = uniqueIds.includes(element._id);
 
     if (!isDuplicate) {
@@ -134,6 +135,7 @@ const uniqueIds = [];
 
     return false;
   });
+  console.log("hi")
 
 res.status(200).json(uniqueEmployees);
 
